@@ -1136,7 +1136,7 @@ class mkrefsclass(astrotableclass):
 
         print('**** ADD: additional check if input images are the same!! ****')
         self.inputimagestable.write('%s.inputim.txt' % self.basename, verbose=True, clobber=True)
-
+        
         mmm = CalibPrep(self.cfg.params['instrument'])
         mmm.inputs = self.inputimagestable.t
 
@@ -1146,9 +1146,10 @@ class mkrefsclass(astrotableclass):
         if self.cfg.params['output']['pipeline_prod_search_dir'] is not None:
             mmm.search_dir += ',%s' % (self.cfg.params['output']['pipeline_prod_search_dir'])
 
+        print('SSB dir: %s' % (self.ssbdir))
         mmm.output_dir = self.ssbdir
         mmm.prepare()
-
+        
         #print('BACK IN MKREFS:')
         # print(mmm.proc_table['index', 'cmdID', 'reflabel', 'steps_to_run', 'repeat_of_index_number', 'index_contained_within'])
         #print(mmm.proc_table['strun_command'][-1])
@@ -1192,7 +1193,9 @@ class mkrefsclass(astrotableclass):
         print(self.ssbcmdtable.t['index', 'real_input_file', 'ssbsteps', 'repeat_of_index_number',
                                  'index_contained_within', 'primary_strun', 'file_already_exists',
                                  'already_in_batch', 'execute_strun', 'strun_executed'])
-
+        print(self.ssbcmdtable.t['index', 'fitsfile','output_name', 'ssbsteps', 'repeat_of_index_number',
+                                 'index_contained_within', 'primary_strun', 'file_already_exists',
+                                 'already_in_batch', 'execute_strun', 'strun_executed'])
         return(0)
 
     #@log_fail
@@ -1231,7 +1234,7 @@ class mkrefsclass(astrotableclass):
 
         # Save the ssb cmd table with the new columns
         self.ssbcmdtable.write('%s.ssbcmds.txt' % self.basename, verbose=True, clobber=True, exclude_names=self.ssbtable_excludecols4saving)
-
+        sys.exit(0)
         return(0)
 
     #@log_fail
@@ -1393,8 +1396,6 @@ class mkrefsclass(astrotableclass):
 
         # Save the ref cmd table with the new columns
         self.refcmdtable.write('%s.refcmds.txt' % self.basename, verbose=True, clobber=True)
-
-        sys.exit(0)
 
         return(0)
 
